@@ -29,7 +29,22 @@ from autoinference import AutoInf
 
 model = AutoInf(
         model_name="VolkanSimsir/LLaMA-3-8B-GRPO-math-tr", 
-        model_type="transformers")
+        model_type="transformers"
+)
+
+prompt = "How are you?"
+output = model(prompt)
+print(output)
+```
+
+🚀 Unsloth library
+```python
+from autoinference import AutoInf
+
+model = AutoInf(
+        model_name="unsloth/gemma-3-1b-it", 
+        model_type="unsloth"
+)
 
 prompt = "How are you?"
 output = model(prompt)
@@ -40,7 +55,7 @@ print(output)
 | Supported Libraries |  Status   
 |----------------------|---|
 | Transformers                 | ✅ 
-| Unsloth                 | x
+| Unsloth                 | ✅
 | vLLM              | x 
 
  
