@@ -1,1 +1,1 @@
-from .inference import AutoInf
+from .inference import AutoInference

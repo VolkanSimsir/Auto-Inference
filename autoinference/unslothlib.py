@@ -1,4 +1,3 @@
-
 from autoinference.inference import ModelConfig
 #from transformers import TextStreamer
 
@@ -10,7 +9,7 @@ class UnslothInference:
         self.FastLanguageModel = FastLanguageModel
 
     def load_model(self):
-        
+        """Loads the Unsloth model."""
         model,tokenizer = self.FastLanguageModel.from_pretrained(
             model_name = self.config.model_name,
             max_seq_length = self.config.max_seq_length,
