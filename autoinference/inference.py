@@ -1,8 +1,6 @@
 from .config import ModelConfig
 from .transformerslib import TransformersInference
 from .unslothlib import UnslothInference
-from .vllmlib import VLLMInference
-
 
 
 class AutoInference:
@@ -15,8 +13,7 @@ class AutoInference:
     Args:
         model_name (str): The name of the model to load.
         model_type (str): The type of inference engine to use. 
-                          Supported values are "transformers", "unsloth", and "vllm".
-
+                          Supported values are "transformers", "unsloth".
     """
     def __init__(self, model_name: str, model_type: str, load_in_4bit: bool):
         self.config = None
@@ -29,10 +26,9 @@ class AutoInference:
     def load_model(self):
         """
         Loads the inference engine based on the model type specified during initialization.
-        
-        It initializes a `ModelConfig` and then instantiates the correct
-        inference engine (`TransformersInference`, `UnslothInference`, or `VLLMInference`).
 
+        It initializes a "ModelConfig" and then instantiates the correct
+        inference engine ("TransformersInference", "UnslothInference").
 
         Returns:
             object: An instance of the loaded inference engine.
@@ -46,11 +42,12 @@ class AutoInference:
             engine = TransformersInference(self.config)
         elif self.config.model_type == "unsloth":
             engine = UnslothInference(self.config)
-        elif self.config.model_type == "vllm":
-            engine = VLLMInference(self.config)
+
 
         self.engine = engine
         return self.engine
 
     def __call__(self, prompt: str) -> str:
         return self.load_model().generate(prompt)
+
+
