@@ -4,6 +4,7 @@ from .unslothlib import UnslothInference
 from .vllmlib import VLLMInference
 
 
+
 class AutoInference:
     """
     A factory class for creating and using different inference engines.
@@ -15,6 +16,7 @@ class AutoInference:
         model_name (str): The name of the model to load.
         model_type (str): The type of inference engine to use. 
                           Supported values are "transformers", "unsloth", and "vllm".
+
     """
     def __init__(self, model_name: str, model_type: str, load_in_4bit: bool):
         self.config = None
@@ -27,9 +29,10 @@ class AutoInference:
     def load_model(self):
         """
         Loads the inference engine based on the model type specified during initialization.
-
+        
         It initializes a `ModelConfig` and then instantiates the correct
         inference engine (`TransformersInference`, `UnslothInference`, or `VLLMInference`).
+
 
         Returns:
             object: An instance of the loaded inference engine.
