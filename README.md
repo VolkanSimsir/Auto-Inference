@@ -1,4 +1,3 @@
-
 <div align="center">
 <h2>
     AutoInference: Multiple inference options in a single library
@@ -9,7 +8,7 @@
 
 
 ## What is AutoInference?
-Auto-Inference is a Python library that can infer models using Hugging Face's Transformers library. It currently only supports Transformers-based models. Unsloth and VLLM support are coming soon.
+Auto-Inference is a Python library that provides a unified interface for model inference using several popular backends, including Hugging Face's Transformers, Unsloth, and vLLM.
 
 
 ## 🛠️ Installation
@@ -25,40 +24,56 @@ uv pip install -r requirements.txt
 
 🤗 Transformers library
 ```python
-from autoinference import AutoInf
+from autoinference import AutoInference
 
-model = AutoInf(
+model = AutoInference(
         model_name="VolkanSimsir/LLaMA-3-8B-GRPO-math-tr", 
-        model_type="transformers"
+        model_type="transformers",
+        
 )
-
 prompt = "How are you?"
 output = model(prompt)
 print(output)
 ```
 
-🚀 Unsloth library
+🦥 Unsloth library
 ```python
-from autoinference import AutoInf
+from autoinference import AutoInference
 
-model = AutoInf(
+model = AutoInference(
         model_name="unsloth/gemma-3-1b-it", 
-        model_type="unsloth"
+        model_type="unsloth",
+        
 )
-
 prompt = "How are you?"
 output = model(prompt)
 print(output)
 ```
+
+⚡️ vLLM library
+```python
+from autoinference import AutoInference
+
+model = AutoInference(
+        model_name="VolkanSimsir/LLaMA-3-8B-GRPO-math-tr",
+        model_type="vllm",
+         
+)
+prompt = "How are you?"
+output = model(prompt)
+print(output)
+```
+
 ## Supported Libraries
 
 | Supported Libraries |  Status   
 |----------------------|---|
 | Transformers                 | ✅ 
 | Unsloth                 | ✅
-| vLLM              | x 
+| vLLM              | ✅ 
+| Llama.cpp         | x
 
- 
+
 
 ## 📜 License
 
