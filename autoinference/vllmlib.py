@@ -22,7 +22,5 @@ class VLLMInference:
             self.load_model()
         
         sampling_params = SamplingParams(max_tokens=self.config.max_new_tokens)
-        
         outputs = self.model.generate(prompt, sampling_params)
-        
         return outputs[0].outputs[0].text

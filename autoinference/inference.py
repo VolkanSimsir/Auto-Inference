@@ -2,7 +2,7 @@ from .config import ModelConfig
 from .transformerslib import TransformersInference
 from .unslothlib import UnslothInference
 from .vllmlib import VLLMInference
-from .llamacpplib import LlamaCppInference
+
 
 class AutoInference:
     """
@@ -45,8 +45,6 @@ class AutoInference:
             engine = UnslothInference(self.config)
         elif self.config.model_type == "vllm":
             engine = VLLMInference(self.config)
-        elif self.config.model_type == "llamacpp":
-            engine = LlamaCppInference(self.config)
 
         self.engine = engine
         return self.engine
