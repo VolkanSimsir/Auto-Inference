@@ -1,55 +1,60 @@
-from .config import ModelConfig
-from .transformerslib import TransformersInference
-from .unslothlib import UnslothInference
-from .vllmlib import VLLMInference
-from .llamacpplib import LlamaCppInference
+from typing import Literal, Optional
+import importlib
+import logging
+
+LIB_TYPE_TO_MODEL_CLASS_NAME = {
+    "transformers": "TransformersInference",
+    "unsloth": "UnslothInference",
+    "vllm": "VLLMInference",
+    "llamacpp": "LlamaCppInference",
+    "sglang": "SglangInference",
+}
 
 class AutoInference:
-    """
-    A factory class for creating and using different inference engines.
-
-    This class selects the appropriate inference engine based on the specified
-    `model_type` and provides a simple interface for text generation.
-
-    Args:
-        model_name (str): The name of the model to load.
-        model_type (str): The type of inference engine to use. 
-                          Supported values are "transformers", "unsloth", and "vllm".
-    """
-    def __init__(self, model_name: str, model_type: str, load_in_4bit: bool):
-        self.config = None
-        self.engine = None
-        self.model_name = model_name
-        self.model_type = model_type
+    @classmethod
+    def from_pretrained(
+        cls,
+        model_name: str,
+        lib_type: str,
+        max_new_tokens: int = 512,
+        do_sample: bool = True,
+        temperature: float = 0.7,
+        skip_special_tokens: bool = True,
+        n_gpu_layers: int = -1,
+        n_ctx: int = 2048,
+        verbose: bool = False,
+        seed: int = 1337,
+        echo: bool = True,
+        repo_id: Optional[str] = None,
+        filename: Optional[str] = None,
+        device: str = "auto",
+        max_seq_length: int = 2048,  
+        load_in_4bit: bool = True,
+        top_k: int = 50,
+        top_p:float = 0.95,
+    ):
+        lib_class_name = LIB_TYPE_TO_MODEL_CLASS_NAME[lib_type]
         
+        lib = __import__(f"autoinference.lib.{lib_type}", fromlist=[lib_class_name])
+        InfLib = getattr(lib, lib_class_name)
         
-
-    def load_model(self):
-        """
-        Loads the inference engine based on the model type specified during initialization.
-
-        It initializes a `ModelConfig` and then instantiates the correct
-        inference engine (`TransformersInference`, `UnslothInference`, or `VLLMInference`).
-
-        Returns:
-            object: An instance of the loaded inference engine.
-        """
-        self.config = ModelConfig(
-            model_name=self.model_name,
-            model_type=self.model_type,
+        return InfLib(
+            model_name=model_name,
+            lib_type=lib_type,
+            device=device,  # Pass device parameter
+            max_new_tokens=max_new_tokens,
+            do_sample=do_sample,
+            temperature=temperature,
+            skip_special_tokens=skip_special_tokens,
+            n_gpu_layers=n_gpu_layers,
+            n_ctx=n_ctx,
+            verbose=verbose,
+            seed=seed,
+            echo=echo,
+            repo_id=repo_id,
+            filename=filename,
+            max_seq_length=max_seq_length,
+            load_in_4bit=load_in_4bit,
+            top_k = top_k,
+            top_p = top_p
         )
-
-        if self.config.model_type == "transformers":
-            engine = TransformersInference(self.config)
-        elif self.config.model_type == "unsloth":
-            engine = UnslothInference(self.config)
-        elif self.config.model_type == "vllm":
-            engine = VLLMInference(self.config)
-        elif self.config.model_type == "llamacpp":
-            engine = LlamaCppInference(self.config)
-
-        self.engine = engine
-        return self.engine
-
-    def __call__(self, prompt: str) -> str:
-        return self.load_model().generate(prompt)
