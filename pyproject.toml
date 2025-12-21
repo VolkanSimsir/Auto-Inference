@@ -1,0 +1,169 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "auto-inference"
+version = "0.2.0"
+description = "A unified interface for LLM inference across multiple backends"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "Kadir Nar", email = "kadir.nar@example.com"}
+]
+maintainers = [
+    {name = "Kadir Nar", email = "kadir.nar@example.com"}
+]
+keywords = [
+    "llm",
+    "inference",
+    "transformers",
+    "vllm",
+    "unsloth",
+    "llama-cpp",
+    "language-model",
+    "machine-learning",
+    "deep-learning",
+    "nlp",
+    "huggingface",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "torch>=2.0.0",
+    "huggingface_hub>=0.16.0",
+]
+
+[project.optional-dependencies]
+transformers = [
+    "transformers>=4.35.0",
+    "accelerate>=0.24.0",
+]
+unsloth = [
+    "unsloth>=2024.1",
+]
+vllm = [
+    "vllm>=0.2.0",
+]
+llamacpp = [
+    "llama-cpp-python>=0.2.0",
+]
+all = [
+    "transformers>=4.35.0",
+    "accelerate>=0.24.0",
+    "vllm>=0.2.0",
+    "llama-cpp-python>=0.2.0",
+]
+all-gpu = [
+    "transformers>=4.35.0",
+    "accelerate>=0.24.0",
+    "unsloth>=2024.1",
+    "vllm>=0.2.0",
+]
+cpu = [
+    "transformers>=4.35.0",
+    "llama-cpp-python>=0.2.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+    "ruff>=0.1.0",
+    "pre-commit>=3.0.0",
+]
+docs = [
+    "sphinx>=7.0.0",
+    "sphinx-rtd-theme>=1.3.0",
+    "myst-parser>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/kadirnar/Auto-Inference"
+Documentation = "https://github.com/kadirnar/Auto-Inference#readme"
+Repository = "https://github.com/kadirnar/Auto-Inference"
+Issues = "https://github.com/kadirnar/Auto-Inference/issues"
+Changelog = "https://github.com/kadirnar/Auto-Inference/releases"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["auto_inference*"]
+exclude = ["tests*", "examples*"]
+
+[tool.black]
+line-length = 88
+target-version = ["py38", "py39", "py310", "py311", "py312"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+known_first_party = ["auto_inference"]
+skip = [".git", ".venv", "build", "dist"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+exclude = ["build", "dist", ".venv"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py38"
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by black)
+    "B008",  # do not perform function calls in argument defaults
+]
+exclude = [
+    ".git",
+    ".venv",
+    "build",
+    "dist",
+    "__pycache__",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --cov=auto_inference --cov-report=term-missing"
