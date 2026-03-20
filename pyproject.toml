@@ -4,15 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "auto-inference"
-version = "0.2.0"
+version = "0.3.0"
 description = "A unified interface for LLM inference across multiple backends"
 readme = "README.md"
 license = {text = "Apache-2.0"}
 authors = [
-    {name = "Kadir Nar", email = "kadir.nar@example.com"}
+    {name = "Volkan Simsir"}
 ]
 maintainers = [
-    {name = "Kadir Nar", email = "kadir.nar@example.com"}
+    {name = "Volkan Simsir"}
 ]
 keywords = [
     "llm",
@@ -63,9 +63,13 @@ vllm = [
 llamacpp = [
     "llama-cpp-python>=0.2.0",
 ]
+quantization = [
+    "bitsandbytes>=0.41.0",
+]
 all = [
     "transformers>=4.35.0",
     "accelerate>=0.24.0",
+    "bitsandbytes>=0.41.0",
     "vllm>=0.2.0",
     "llama-cpp-python>=0.2.0",
 ]
@@ -94,12 +98,15 @@ docs = [
     "myst-parser>=2.0.0",
 ]
 
+[project.scripts]
+auto-inference = "auto_inference.cli:main"
+
 [project.urls]
-Homepage = "https://github.com/kadirnar/Auto-Inference"
-Documentation = "https://github.com/kadirnar/Auto-Inference#readme"
-Repository = "https://github.com/kadirnar/Auto-Inference"
-Issues = "https://github.com/kadirnar/Auto-Inference/issues"
-Changelog = "https://github.com/kadirnar/Auto-Inference/releases"
+Homepage = "https://github.com/VolkanSimsir/Auto-Inference"
+Documentation = "https://github.com/VolkanSimsir/Auto-Inference#readme"
+Repository = "https://github.com/VolkanSimsir/Auto-Inference"
+Issues = "https://github.com/VolkanSimsir/Auto-Inference/issues"
+Changelog = "https://github.com/VolkanSimsir/Auto-Inference/releases"
 
 [tool.setuptools.packages.find]
 where = ["."]

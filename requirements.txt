@@ -1,7 +1,22 @@
+# Core (always required)
 torch>=2.0.0
 huggingface_hub>=0.16.0
+
+# Transformers backend
 transformers>=4.35.0
 accelerate>=0.24.0
-vllm>=0.2.0
-unsloth>=2024.1
-llama-cpp-python>=0.2.0
+
+# Quantization support (optional, for load_in_4bit / load_in_8bit)
+# bitsandbytes>=0.41.0
+
+# Unsloth backend (GPU only)
+# unsloth>=2024.1
+
+# vLLM backend (GPU only)
+# vllm>=0.2.0
+
+# llama.cpp backend
+# llama-cpp-python>=0.2.0
+
+# Optional system info helper
+# psutil>=5.9.0
